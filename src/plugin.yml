@@ -1,0 +1,12 @@
+name: Uncraft
+version: 0.1
+main: de.stamme.uncraft.main.Uncraft
+description: Let's Player uncraft items
+
+author: Tonnanto & Fixel
+api-version: "1.16"
+
+commands:
+  test:
+    description: Test purpose only.
+    usage: /<command> [detail]
