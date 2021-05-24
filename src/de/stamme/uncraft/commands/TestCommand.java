@@ -1,6 +1,8 @@
 package de.stamme.uncraft.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,9 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.List;
+import java.util.*;
 
 public class TestCommand implements CommandExecutor {
+
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -27,8 +30,27 @@ public class TestCommand implements CommandExecutor {
 
             for (Recipe recipe: recipes) {
                 if (recipe instanceof ShapedRecipe) {
-                    ((ShapedRecipe) recipe).getIngredientMap().forEach((k, v) -> player.sendMessage(k + ": " + v.getType().name()));
+
+                    List<ItemStack> ingredients = new ArrayList<>();
+                    for (ItemStack ingredient : ((ShapedRecipe) recipe).getIngredientMap().values()) {
+                        if (ingredient != null) {
+                            ingredients.add(ingredient);
+                        }
+                    }
+
+                    player.getInventory().setItemInMainHand(null);
+                    HashMap<Integer, ItemStack> remainingItems = player.getInventory().addItem(getVector(ingredients));
+
+                    playSound(player, ingredients);
+
+                    remainingItems.forEach((key, value) -> player.sendMessage(value.getType().name()));
+
+                    for (Map.Entry<Integer, ItemStack> remainingItem : remainingItems.entrySet()) {
+                        player.getLocation().getWorld().dropItem(player.getLocation(), remainingItem.getValue());
+                    }
+
                 }
+                // TODO: Handle other types of recipes
             }
         }
 
