@@ -6,7 +6,7 @@ Author: Tonnanto & fixel304
 Current Version: 1.1
 
 
-Download the plugin and find the Project Page on [SpigotMC](https://www.spigotmc.org/resources/uncraft.103187/).
+Download the plugin and find the Project Page on [SpigotMC](https://www.spigotmc.org/resources/uncraft.103187/) or [Bukkit](https://www.curseforge.com/minecraft/bukkit-plugins/uncraft).
 
 ## How it works
 You can hold an item in your main hand and uncraft it by typing the command `/uncraft`.
