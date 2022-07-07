@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.spigot_version = "1.19-R0.1-SNAPSHOT"
+    ext.spigot_version = "1.16.5-R0.1-SNAPSHOT"//"1.19-R0.1-SNAPSHOT"
 
     repositories {
         jcenter()
@@ -13,7 +13,7 @@ buildscript {
 apply plugin:'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.0"
+version = "1.1"
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 

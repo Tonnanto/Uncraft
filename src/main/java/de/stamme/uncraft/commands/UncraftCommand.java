@@ -1,6 +1,7 @@
 package de.stamme.uncraft.commands;
 
 
+import de.stamme.uncraft.misc.Config;
 import de.stamme.uncraft.misc.Helpers;
 import de.stamme.uncraft.misc.Sounds;
 import de.stamme.uncraft.misc.StringFormatter;
@@ -28,11 +29,21 @@ public class UncraftCommand implements CommandExecutor {
             // get item in players main hand
             ItemStack playersHand = player.getInventory().getItemInMainHand();
 
+            if (playersHand.getType() == Material.AIR) {
+                player.sendMessage("You have to have an item in your hand to uncraft");
+                return true;
+            }
+
             // get recipe of item
             List<Recipe> recipes = Bukkit.getRecipesFor(playersHand);
 
             if (!recipes.isEmpty()) {
                 Recipe recipe = recipes.get(0);
+
+                if (!isUncraftingAllowed(recipe)) {
+                    player.sendMessage("You are not allowed to uncraft this item");
+                    return true;
+                }
 
                 int newHandItemCount = playersHand.getAmount() - recipe.getResult().getAmount();
                 boolean hasRequiredItemsInHand = playersHand.getAmount() >= recipe.getResult().getAmount();
@@ -179,6 +190,16 @@ public class UncraftCommand implements CommandExecutor {
         return String.format("You need at least %s to receive %s",
                 StringFormatter.formatItemStack(recipe.getResult()),
                 ingredientsListString);
+    }
+
+    private boolean isUncraftingAllowed(Recipe recipe) {
+        String material = recipe.getResult().getType().name();
+
+        if (Config.getUseWhitelist()) {
+            return Config.getWhitelist().contains(material);
+        } else {
+            return !Config.getBlacklist().contains(material);
+        }
     }
 
 }
